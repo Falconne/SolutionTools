@@ -7,8 +7,8 @@
     <ProjectGuid>{D62D857E-8F9F-403B-B3AA-ACFFD6042B0A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SolutionParser</RootNamespace>
-    <AssemblyName>SolutionParser</AssemblyName>
+    <RootNamespace>Falconne.SolutionTools</RootNamespace>
+    <AssemblyName>SolutionTools</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ost-onion\src\Onion.SolutionParser.Parser\Onion.SolutionParser.Parser.csproj">
+      <Project>{91fef9d7-5376-4ea4-be09-cfb0ebb083fd}</Project>
+      <Name>Onion.SolutionParser.Parser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
