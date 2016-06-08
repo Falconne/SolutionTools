@@ -1,4 +1,0 @@
-[submodule "ost-onion"]
-	path = ost-onion
-	url = https://github.com/ost-onion/SolutionParser.git
-	branch = master
