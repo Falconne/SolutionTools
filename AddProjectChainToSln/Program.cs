@@ -11,6 +11,9 @@ namespace Falconne.AddProjectChainToSln
 
     class Options
     {
+        [ParserState]
+        public IParserState LastParserState { get; set; }
+
         [Option('s', "sourcesln", Required = true, HelpText = "Path to source soution containing root project.")]
         public string SourceSolutionPath { get; set; }
 
@@ -29,7 +32,18 @@ namespace Falconne.AddProjectChainToSln
         [HelpOption(HelpText = "Dispaly this help screen.")]
         public string GetUsage()
         {
-            var help = new HelpText("Inject a root project and dependencies into target solution. Usage:");
+            var help = new HelpText("Inject a root project and dependencies into target solution.");
+            if (LastParserState.Errors.Any())
+            {
+                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+
+                if (!string.IsNullOrEmpty(errors))
+                {
+                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+                    help.AddPreOptionsLine(errors);
+                }
+            }
+
             help.AddOptions(this);
             return help;
         }
@@ -105,7 +119,10 @@ namespace Falconne.AddProjectChainToSln
 
                 targetSolution.AddBuildConfigs(newTargetBuildConfigs);
             }
+
             targetSolution.Save();
+
+            Console.WriteLine("Done.");
 
             return true;
         }
