@@ -17,11 +17,11 @@ namespace Falconne.SolutionTools
     {
         public Solution(string path)
         {
-            Path = path;
+            _path = path;
             var onionSolution = Onion.SolutionParser.Parser.SolutionParser.Parse(path);
 
             Global = onionSolution.Global.ToList();
-            var root = System.IO.Path.GetDirectoryName(Path);
+            var root = Path.GetDirectoryName(_path);
             if (onionSolution.Projects.Any(op => op.ProjectSection?.Type == ProjectSectionType.PreProject))
                 throw new Exception("Unsupported project pre-section");
 
@@ -37,7 +37,7 @@ namespace Falconne.SolutionTools
         {
             var rootInSolution = Projects.FirstOrDefault(op => op.ProjectGuid == root.ProjectGuid);
             if (rootInSolution == null)
-                throw new Exception($"{root.Path} not found in {Path}");
+                throw new Exception($"{root.Path} not found in {_path}");
 
             yield return rootInSolution;
             foreach (var dependency in root.GetDependencies())
@@ -89,11 +89,13 @@ namespace Falconne.SolutionTools
         public void Save()
         {
             var result = new StringBuilder();
-            result.Append(@"Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
-");
+
+            var content = File.ReadAllLines(_path);
+            foreach (var line in content.TakeWhile(l => !l.Contains("Project(")))
+            {
+                result.AppendLine(line);
+            }
+
             foreach (var project in Projects)
             {
                 result.Append(MakeProjectEntry(project));
@@ -111,13 +113,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
             }
             result.AppendLine("EndGlobal");
 
-            File.WriteAllText(Path, result.ToString());
+            File.WriteAllText(_path, result.ToString());
         }
 
         private string MakeProjectEntry(Project project)
         {
             var onion = project.Onion;
-            var relPath = project.GetRelativePathInSolution(Path);
+            var relPath = project.GetRelativePathInSolution(_path);
             var result = new StringBuilder();
             result.AppendLine(
                 $"Project(\"{{{project.GetTypeGuidString()}}}\") = \"{onion.Name}\", \"{relPath}\", \"{{{project.GetGuidString()}}}\"");
@@ -156,6 +158,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
         public IList<GlobalSection> Global { get; set; }
         public IList<Project> Projects { get; set; }
 
-        private string Path;
+        private readonly string _path;
     }
 }
