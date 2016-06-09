@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Onion.SolutionParser.Parser.Model;
 
-namespace Falconne.SolutionTools
+namespace Falconne.AddProjectChainToSln
 {
-    internal class Program
+    using SolutionTools;
+
+    class Program
     {
-        private static int Main(string[] args)
+        static int Main(string[] args)
         {
             try
             {
