@@ -2,20 +2,53 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CommandLine;
+using CommandLine.Text;
 
 namespace Falconne.AddProjectChainToSln
 {
     using SolutionTools;
 
+    class Options
+    {
+        [Option('s', "sourcesln", Required = true, HelpText = "Path to source soution containing root project.")]
+        public string SourceSolutionPath { get; set; }
+
+        [Option('t', "targetsln", Required = true, HelpText = "Path to target soution to insert projects into.")]
+        public string TargetSolutionPath { get; set; }
+
+        [Option('p', "project", Required = true, HelpText = "Root project name in source solution.")]
+        public string ProjectName { get; set; }
+
+        [Option("sourceconfig", Required = true, HelpText = "Configuration|Platform to read from source solution.")]
+        public string SourceConfigPlatform { get; set; }
+
+        [Option("targetconfig", Required = true, HelpText = "Configuration|Platform to use in target solution.")]
+        public string TargetConfigPlatform { get; set; }
+
+        [HelpOption(HelpText = "Dispaly this help screen.")]
+        public string GetUsage()
+        {
+            var help = new HelpText("Inject a root project and dependencies into target solution. Usage:");
+            help.AddOptions(this);
+            return help;
+        }
+    }
+
     class Program
     {
         static int Main(string[] args)
         {
+            var options = new Options();
+            if (!Parser.Default.ParseArgumentsStrict(args, options))
+            {
+                return 1;
+            }
+
             try
             {
-                return AddProjectToSolution(@"C:\git\cti\NTiTy\Zeacom\Zeacom.sln", "Release|x86",
-                    "Zeacom.Contracts", @"C:\git\cti\NTiTy\Clients\TouchPoint\TouchPoint.sln",
-                    "Release|Licensed")
+                return AddProjectToSolution(options.SourceSolutionPath, options.TargetSolutionPath,
+                    options.ProjectName, options.SourceConfigPlatform, options.TargetConfigPlatform)
                     ? 0
                     : 1;
             }
@@ -26,8 +59,8 @@ namespace Falconne.AddProjectChainToSln
             }
         }
 
-        private static bool AddProjectToSolution(string sourceSolutionPath, string sourceConfigPlatform,
-            string sourceProjectName, string targetSolutionPath, string targetConfigPlatform)
+        private static bool AddProjectToSolution(string sourceSolutionPath, string targetSolutionPath,
+            string sourceProjectName, string sourceConfigPlatform, string targetConfigPlatform)
         {
             if (!File.Exists(sourceSolutionPath))
             {

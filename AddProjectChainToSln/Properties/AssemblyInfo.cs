@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AddProjectChainToSln")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Zeacom")]
-[assembly: AssemblyProduct("AddProjectChainToSln")]
-[assembly: AssemblyCopyright("Copyright © Zeacom 2016")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SolutionTools")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
