@@ -9,7 +9,7 @@ namespace Falconne.AddProjectChainToSln
 {
     using SolutionTools;
 
-    class Options
+    internal class Options
     {
         [ParserState]
         public IParserState LastParserState { get; set; }
@@ -32,7 +32,7 @@ namespace Falconne.AddProjectChainToSln
         [HelpOption(HelpText = "Dispaly this help screen.")]
         public string GetUsage()
         {
-            var help = new HelpText("Inject a root project and dependencies into target solution.");
+            var help = new HelpText("Copy a given project and all its dependent projects from one solution to another.");
             if (LastParserState.Errors.Any())
             {
                 var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
@@ -49,9 +49,9 @@ namespace Falconne.AddProjectChainToSln
         }
     }
 
-    class Program
+    internal class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             var options = new Options();
             if (!Parser.Default.ParseArgumentsStrict(args, options))

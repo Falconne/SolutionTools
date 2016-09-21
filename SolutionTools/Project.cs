@@ -20,8 +20,7 @@ namespace Falconne.SolutionTools
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Project)obj);
+            return obj.GetType() == GetType() && Equals((Project) obj);
         }
 
         public override int GetHashCode()
@@ -99,7 +98,7 @@ namespace Falconne.SolutionTools
             return Onion.TypeGuid.ToString().ToUpper();
         }
 
-        public Guid ProjectGuid { get; private set; }
+        public Guid ProjectGuid { get; }
         public string Path { get; private set; }
         public Onion.SolutionParser.Parser.Model.Project Onion;
     }
