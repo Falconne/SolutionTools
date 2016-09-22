@@ -1,12 +1,8 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net.Configuration;
 using System.Text;
-using System.Threading.Tasks;
 using Onion.SolutionParser.Parser.Model;
 
 namespace Falconne.SolutionTools
@@ -22,8 +18,6 @@ namespace Falconne.SolutionTools
 
             Global = onionSolution.Global.ToList();
             var root = Path.GetDirectoryName(_path);
-            if (onionSolution.Projects.Any(op => op.ProjectSection?.Type == ProjectSectionType.PreProject))
-                throw new Exception("Unsupported project pre-section");
 
             Projects = onionSolution.Projects.Select(op => new Project(op, root)).ToList();
         }
