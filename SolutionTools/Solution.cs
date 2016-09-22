@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Onion.SolutionParser.Parser;
 using Onion.SolutionParser.Parser.Model;
 
 namespace Falconne.SolutionTools
@@ -14,12 +15,21 @@ namespace Falconne.SolutionTools
         public Solution(string path)
         {
             _path = path;
-            var onionSolution = Onion.SolutionParser.Parser.SolutionParser.Parse(path);
+            try
+            {
+                var onionSolution = SolutionParser.Parse(path);
 
-            Global = onionSolution.Global.ToList();
-            var root = Path.GetDirectoryName(_path);
+                Global = onionSolution.Global.ToList();
+                var root = Path.GetDirectoryName(_path);
 
-            Projects = onionSolution.Projects.Select(op => new Project(op, root)).ToList();
+                Projects = onionSolution.Projects.Select(op => new Project(op, root)).ToList();
+
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine($"Error parsing {path}. Check the syntax of the file.");
+                throw;
+            }
         }
 
         public Project GetProject(string name)
