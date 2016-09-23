@@ -62,7 +62,9 @@ namespace Falconne.SolutionTools
             var projectReferences = doc.Descendants().Where(d => d.Name.LocalName == "ProjectReference");
             foreach (var projectReference in projectReferences)
             {
-                var refPath = projectReference.Attribute("Include").Value;
+                var refPath = projectReference.Attribute("Include")?.Value;
+                if (refPath == null)
+                    continue;
                 var refRealPath = System.IO.Path.Combine(projectDirectory, refPath);
                 if (!File.Exists(refRealPath))
                     continue;
