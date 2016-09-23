@@ -25,7 +25,7 @@ namespace Falconne.SolutionTools
                 Projects = onionSolution.Projects.Select(op => new Project(op, root)).ToList();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.Error.WriteLine($"Error parsing {path}. Check the syntax of the file.");
                 throw;

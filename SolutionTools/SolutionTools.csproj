@@ -37,10 +37,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Onion.SolutionParser.Parser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Onion.SolutionParser.Parser.1.0.0.0\lib\net45\Onion.SolutionParser.Parser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +54,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SolutionParser\src\Onion.SolutionParser.Parser\Onion.SolutionParser.Parser.csproj">
+      <Project>{91fef9d7-5376-4ea4-be09-cfb0ebb083fd}</Project>
+      <Name>Onion.SolutionParser.Parser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

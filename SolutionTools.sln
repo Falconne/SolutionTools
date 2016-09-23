@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2015
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionTools", "SolutionTools\SolutionTools.csproj", "{D62D857E-8F9F-403B-B3AA-ACFFD6042B0A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddProjectChainToSln", "AddProjectChainToSln\AddProjectChainToSln.csproj", "{CE675443-1F04-418A-B63B-2CB8C7CC4823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onion.SolutionParser.Parser", "SolutionParser\src\Onion.SolutionParser.Parser\Onion.SolutionParser.Parser.csproj", "{91FEF9D7-5376-4EA4-BE09-CFB0EBB083FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CE675443-1F04-418A-B63B-2CB8C7CC4823}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE675443-1F04-418A-B63B-2CB8C7CC4823}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE675443-1F04-418A-B63B-2CB8C7CC4823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91FEF9D7-5376-4EA4-BE09-CFB0EBB083FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FEF9D7-5376-4EA4-BE09-CFB0EBB083FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FEF9D7-5376-4EA4-BE09-CFB0EBB083FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FEF9D7-5376-4EA4-BE09-CFB0EBB083FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
