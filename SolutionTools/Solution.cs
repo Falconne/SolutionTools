@@ -39,7 +39,7 @@ namespace Falconne.SolutionTools
 
         public IEnumerable<Project> GetFlattenedRelatedProjectList(Project root)
         {
-            var rootInSolution = Projects.FirstOrDefault(op => op.ProjectGuid == root.ProjectGuid);
+            var rootInSolution = Projects.FirstOrDefault(op => op == root);
             if (rootInSolution == null)
                 throw new Exception($"{root.Path} not found in {_path}");
 
