@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SolutionTools\SolutionTools.csproj">
+    <ProjectReference Include="..\SolutionTools\CommonParsingUtils.csproj">
       <Project>{d62d857e-8f9f-403b-b3aa-acffd6042b0a}</Project>
-      <Name>SolutionTools</Name>
+      <Name>CommonParsingUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

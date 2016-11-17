@@ -21,7 +21,8 @@ namespace Falconne.AddReferenceToProject
         [HelpOption(HelpText = "Dispaly this help screen.")]
         public string GetUsage()
         {
-            var help = new HelpText("Add one project into another, as a project refence.");
+            var help = new HelpText(
+                "Add one project into another, as a project refence. User AddProjectChainToSln afterwards to update solutions.");
             if (LastParserState.Errors.Any())
             {
                 var errors = help.RenderParsingErrorsText(this, 2);
