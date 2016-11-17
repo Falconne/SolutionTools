@@ -63,7 +63,7 @@ namespace Falconne.SolutionTools
             foreach (var projectReference in projectReferences)
             {
                 var refPath = projectReference.Attribute("Include")?.Value;
-                if (refPath == null)
+                if (string.IsNullOrEmpty(refPath))
                     continue;
                 var refRealPath = System.IO.Path.Combine(projectDirectory, refPath);
                 if (!File.Exists(refRealPath))
