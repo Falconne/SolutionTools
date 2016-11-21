@@ -38,6 +38,7 @@ namespace Falconne.SolutionTools
             return !Equals(left, right);
         }
 
+        // TODO: Combine into consistent construction
         public Project(string path)
         {
             if (!File.Exists(path))
