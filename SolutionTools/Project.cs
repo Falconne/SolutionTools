@@ -38,7 +38,6 @@ namespace Falconne.SolutionTools
             return !Equals(left, right);
         }
 
-        // TODO: Combine into consistent construction
         public Project(string path)
         {
             if (!File.Exists(path))
@@ -102,7 +101,21 @@ namespace Falconne.SolutionTools
         }
 
         public Guid ProjectGuid { get; }
-        public string Path { get; private set; }
-        public Onion.SolutionParser.Parser.Model.Project Onion;
+
+        public string Path { get; }
+
+        public Onion.SolutionParser.Parser.Model.Project Onion
+        {
+            private set { _onion = value; }
+            get
+            {
+                if (_onion == null)
+                    throw new Exception("Invalid access of uninitalised Onion project");
+
+                return _onion;
+            }
+        }
+
+        private Onion.SolutionParser.Parser.Model.Project _onion;
     }
 }
