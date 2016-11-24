@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
+using Onion.SolutionParser.Parser.Model;
 
 namespace Falconne.SolutionTools
 {
@@ -40,19 +38,38 @@ namespace Falconne.SolutionTools
 
         public Project(string path)
         {
-            if (!File.Exists(path))
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
                 throw new Exception($"File not found: {path}");
 
             Path = path;
             var doc = XDocument.Load(Path);
             ProjectGuid = new Guid(doc.Descendants().First(d => d.Name.LocalName == "ProjectGuid").Value);
+            Name = System.IO.Path.GetFileNameWithoutExtension(Path);
+            IsFolder = false;
+
+            var extension = System.IO.Path.GetExtension(Path).ToLower();
+            if (extension.Equals(".csproj"))
+            {
+                TypeGuid = new Guid("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC");
+            }
+            else if (extension.Equals(".vcxproj"))
+            {
+                TypeGuid = new Guid("8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942");
+            }
+            else
+            {
+                throw new Exception("Project type not supported for direct import.");
+            }
         }
 
         public Project(Onion.SolutionParser.Parser.Model.Project onionProject, string solutionRoot)
         {
             Onion = onionProject;
             ProjectGuid = onionProject.Guid;
-            Path = IsFolder() ? onionProject.Path : System.IO.Path.Combine(solutionRoot, onionProject.Path);
+            IsFolder = Onion.TypeGuid.Equals(new Guid("2150E333-8FDC-42A3-9474-1A3956D46DE8"));
+            Path = IsFolder ? onionProject.Path : System.IO.Path.Combine(solutionRoot, onionProject.Path);
+            TypeGuid = Onion.TypeGuid;
+            Name = Onion.Name;
         }
 
         public IEnumerable<Project> GetDependencies()
@@ -75,7 +92,7 @@ namespace Falconne.SolutionTools
 
         public string GetRelativePathInSolution(string solutionRoot)
         {
-            if (IsFolder())
+            if (IsFolder)
                 return Path;
 
             var fullPath = new Uri(Path, UriKind.Absolute);
@@ -85,19 +102,14 @@ namespace Falconne.SolutionTools
             return relPath.Replace("/", "\\");
         }
 
-        public bool IsFolder()
-        {
-            return Onion.TypeGuid.Equals(new Guid("2150E333-8FDC-42A3-9474-1A3956D46DE8"));
-        }
-
         public string GetGuidString()
         {
             return ProjectGuid.ToString().ToUpper();
         }
 
-        public string GetTypeGuidString()
+        public ProjectSection GetProjectSectionIfExists()
         {
-            return Onion.TypeGuid.ToString().ToUpper();
+            return _onion == null ? null : Onion.ProjectSection;
         }
 
         public Guid ProjectGuid { get; }
@@ -115,6 +127,12 @@ namespace Falconne.SolutionTools
                 return _onion;
             }
         }
+
+        public bool IsFolder { get; }
+
+        public Guid TypeGuid { get; private set; }
+
+        public string Name { get; private set; }
 
         private Onion.SolutionParser.Parser.Model.Project _onion;
     }

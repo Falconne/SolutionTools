@@ -75,12 +75,17 @@ namespace Falconne.SolutionTools
 
         public void AddBuildConfigs(IEnumerable<KeyValuePair<string, string>> configs)
         {
-            var bcSection = GetBuildConfigSection();
             foreach (var pair in configs)
             {
-                if (!bcSection.Any(bcs => bcs.Key.Equals(pair.Key)))
-                    bcSection.Add(pair);
+                AddBuildConfig(pair);
             }
+        }
+
+        public void AddBuildConfig(KeyValuePair<string, string> pair)
+        {
+            var bcSection = GetBuildConfigSection();
+            if (!bcSection.Any(bcs => bcs.Key.Equals(pair.Key)))
+                bcSection.Add(pair);
         }
 
         public IDictionary<string, string> GetBuildConfigSection()
@@ -122,29 +127,28 @@ namespace Falconne.SolutionTools
 
         private string MakeProjectEntry(Project project)
         {
-            var onion = project.Onion;
             var relPath = project.GetRelativePathInSolution(_path);
             var result = new StringBuilder();
             result.AppendLine(
-                $"Project(\"{{{project.GetTypeGuidString()}}}\") = \"{onion.Name}\", \"{relPath}\", \"{{{project.GetGuidString()}}}\"");
+                $"Project(\"{{{project.TypeGuid.ToString().ToUpper()}}}\") = \"{project.Name}\", \"{relPath}\", \"{{{project.GetGuidString()}}}\"");
 
-            if (onion.ProjectSection != null)
-            {
-                result.Append(MakeProjectSection(onion));
-            }
+            result.Append(MakeProjectSection(project.GetProjectSectionIfExists()));
 
             result.AppendLine("EndProject");
 
             return result.ToString();
         }
 
-        private static string MakeProjectSection(OnionProject project)
+        private static string MakeProjectSection(ProjectSection section)
         {
+            if (section == null)
+                return "";
+
             var result = new StringBuilder();
             result.AppendLine(
-                $"\tProjectSection({project.ProjectSection.Name}) = {GetAsCamelCase(project.ProjectSection.Type.ToString())}");
+                $"\tProjectSection({section.Name}) = {GetAsCamelCase(section.Type.ToString())}");
 
-            foreach (var entry in project.ProjectSection.Entries)
+            foreach (var entry in section.Entries)
             {
                 result.AppendLine($"\t\t{entry.Key} = {entry.Value}");
             }
