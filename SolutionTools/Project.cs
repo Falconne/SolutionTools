@@ -74,7 +74,7 @@ namespace Falconne.SolutionTools
 
         public IEnumerable<Project> GetDependencies()
         {
-            var projectDirectory = System.IO.Path.GetDirectoryName(Path);
+            var projectDirectory = Pri.LongPath.Path.GetDirectoryName(Path);
             var doc = XDocument.Load(Path);
             var projectReferences = doc.Descendants().Where(d => d.Name.LocalName == "ProjectReference");
             foreach (var projectReference in projectReferences)
@@ -82,9 +82,9 @@ namespace Falconne.SolutionTools
                 var refPath = projectReference.Attribute("Include")?.Value;
                 if (string.IsNullOrEmpty(refPath))
                     continue;
-                var refRealPath = System.IO.Path.Combine(projectDirectory, refPath);
+                var refRealPath = Pri.LongPath.Path.Combine(projectDirectory, refPath);
                 if (!File.Exists(refRealPath))
-                    continue;
+                    throw new Exception("Refence not found: " + refRealPath);
 
                 yield return new Project(refRealPath);
             }
