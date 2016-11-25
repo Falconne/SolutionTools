@@ -165,7 +165,7 @@ Otherwise, Configuration|Platform of project to use.")]
             targetSolution.AddProject(project);
             var configPrefix = $"{{{project.ProjectGuid.ToString().ToUpper()}}}.{targetConfigPlatform}";
             targetSolution.AddBuildConfig(new KeyValuePair<string, string>(
-                $"{configPrefix}.{targetConfigPlatform}.ActiveCfg", sourceConfigPlatform));
+                $"{configPrefix}.ActiveCfg", sourceConfigPlatform));
 
             targetSolution.AddBuildConfig(new KeyValuePair<string, string>(
                 $"{configPrefix}.Build.0", sourceConfigPlatform));
