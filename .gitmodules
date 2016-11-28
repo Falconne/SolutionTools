@@ -1,4 +1,4 @@
 [submodule "SolutionParser"]
 	path = SolutionParser
-	url = git@github.com:Falconne/SolutionParser.git
+	url = https://github.com/Falconne/SolutionParser.git
 	branch = master
