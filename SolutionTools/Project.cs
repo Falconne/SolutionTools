@@ -97,7 +97,7 @@ namespace Falconne.SolutionTools
 
             var fullPath = new Uri(Path, UriKind.Absolute);
             var relRoot = new Uri(solutionRoot, UriKind.Absolute);
-            var relPath = relRoot.MakeRelativeUri(fullPath).ToString();
+            var relPath = Uri.UnescapeDataString(relRoot.MakeRelativeUri(fullPath).ToString());
 
             return relPath.Replace("/", "\\");
         }
